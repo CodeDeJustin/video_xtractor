@@ -1,59 +1,54 @@
-Visitez mon site web : justinallard.ca
+# video_xtractor (mise à jour 2026)
 
+## Dépendances
 
-Générer le fichier .spec :
-Utilisez la commande suivante pour générer le fichier .spec de base:
+- Python (recommandé: version la plus récente stable)
+- yt-dlp
+- ffmpeg (important: merge / conversion)
+- colorama
+- PyInstaller (si vous voulez un .exe)
 
-TERMINAL OU POWERSHELL→→→ pyinstaller --onefile --icon=snake.ico video_xtractor.py
+## Installation (dev)
 
-Puis vous devez inclure le dossier ffmpeg à l'intérieur du fichier spec:
+```bash
+python -m pip install -U yt-dlp colorama pyinstaller
+```
 
+## Structure recommandée
 
-# -*- mode: python ; coding: utf-8 -*-
+```
+project/
+  video_xtractor.py
+  video_xtractor_def.py
+  snake.ico               (optionnel)
+  ffmpeg/
+    bin/
+      ffmpeg.exe
+      ffprobe.exe          (optionnel mais recommandé)
+      ffplay.exe           (optionnel)
+```
 
-block_cipher = None
+## Build EXE (PyInstaller)
 
-a = Analysis(
-    ['video_xtractor.py'],
-    pathex=['C:\\VotreDossier\\VotreSousDossier\\video_xtractor'],
-    binaries=[],
-    datas=[('ffmpeg/bin', 'ffmpeg/bin')],
-    hiddenimports=['yt_dlp', 'colorama'],
-    hookspath=[],
-    hooksconfig={},
-    runtime_hooks=[],
-    excludes=[],
-    noarchive=False,
-    optimize=0,
-)
-pyz = PYZ(a.pure)
+1. Générer le .spec si besoin:
 
-exe = EXE(
-    pyz,
-    a.scripts,
-    a.binaries,
-    a.datas,
-    [],
-    name='video_xtractor',
-    debug=False,
-    bootloader_ignore_signals=False,
-    strip=False,
-    upx=True,
-    upx_exclude=[],
-    runtime_tmpdir=None,
-    console=True,
-    disable_windowed_traceback=False,
-    argv_emulation=False,
-    target_arch=None,
-    codesign_identity=None,
-    entitlements_file=None,
-    icon='snake.ico',
-)
+```bash
+pyinstaller --onefile video_xtractor.py
+```
 
+2. Utiliser le `video_xtractor.spec` fourni (il inclut ffmpeg/bin automatiquement si présent):
 
-Pour créer un fichier exécutable de ce projet (construction de l'exécutable), veuillez, dans le terminal du projet, à l'emplacement du programme, écrire la ligne de commande suivante:
+```bash
+pyinstaller video_xtractor.spec
+```
 
-TERMINAL OU POWERSHELL→→→ pyinstaller video_xtractor.spec
+Le .exe se trouve ensuite dans `dist/`.
 
+## Variables d'environnement utiles
 
-Le fichier exécutable video_xtractor.exe se trouvera à l'intérieur du dossier dist nouvellement créé.
+- `VIDEO_XTRACTOR_OUTPUT_DIR` : dossier de sortie (sinon `./downloads/` ou `~/Downloads/video_xtractor`)
+- `VIDEO_XTRACTOR_FFMPEG` : chemin vers ffmpeg.exe (ou le dossier qui le contient)
+- `VIDEO_XTRACTOR_FORMAT` : format yt-dlp (par défaut: MP4/H.264 préféré)
+- `VIDEO_XTRACTOR_COOKIES_FROM_BROWSER` : ex: `edge` ou `chrome` (utile quand un site exige une session)
+- `VIDEO_XTRACTOR_COOKIES_FILE` : chemin vers un cookiefile Netscape
+- `VIDEO_XTRACTOR_USER_AGENT` : User-Agent custom (rarement nécessaire)

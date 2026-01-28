@@ -1,14 +1,12 @@
 # -*- mode: python ; coding: utf-8 -*-
 
 
-block_cipher = None
-
 a = Analysis(
     ['video_xtractor.py'],
-    pathex=['D:\\OneDrive\\SITE_WEB\\video_xtractor'],
+    pathex=[],
     binaries=[],
-    datas=[('ffmpeg/bin', 'ffmpeg/bin')],
-    hiddenimports=['yt_dlp', 'colorama'],
+    datas=[],
+    hiddenimports=[],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
@@ -37,5 +35,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon='snake.ico',
+    icon=['snake.ico'],
 )
